@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-server/
+
+# Runtime SQLite database & WAL/SHM lock files
+data/
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Internal documents & Office temp lock files
+ESAI.docx
+~$*
+
+# Logs, caches & test artifacts
+*.log
+npm-debug.log*
+coverage/
+.vite/
+.tsx/
+tmp/
+
+# OS & IDE files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/

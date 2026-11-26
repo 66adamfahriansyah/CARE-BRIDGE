@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+:root {
+  --cb-primary: #135d43;
+  --cb-primary-hover: #0e4834;
+  --cb-emerald: #1b8a5a;
+  --cb-soft-mint: #e8f6ee;
+  --cb-surface: #f5fbf8;
+  --cb-teal-accent: #1d6e6b;
+  --cb-ink: #0e2d24;
+  --cb-ink-secondary: #47655b;
+  --cb-border: #dceae3;
+  --cb-danger: #c93434;
+  --cb-danger-bg: #fdecec;
+  --cb-shadow-card: 0 6px 24px -6px rgba(17, 56, 42, 0.08);
+  --cb-shadow-elevated: 0 14px 36px -10px rgba(17, 56, 42, 0.14);
+  --cb-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--cb-ink);
+    background-color: var(--cb-surface);
+    scroll-behavior: smooth;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    transition:
+      background-color 170ms ease,
+      border-color 170ms ease,
+      color 170ms ease,
+      box-shadow 180ms ease,
+      transform 160ms var(--cb-ease-out);
+  }
+
+  button:active:not(:disabled),
+  a[role='button']:active {
+    transform: scale(0.985);
+  }
+
+  :focus-visible {
+    outline: 2px solid #1b8a5a;
+    outline-offset: 2px;
+  }
+}
+
+.font-script-aceh {
+  font-family: 'Caveat', 'Plus Jakarta Sans', cursive;
+}
+
+.cb-card {
+  background-color: #ffffff;
+  border: 1px solid var(--cb-border);
+  border-radius: 1rem;
+  box-shadow: var(--cb-shadow-card);
+}
+
+.cb-card-elevated {
+  background-color: #ffffff;
+  border: 1px solid var(--cb-border);
+  border-radius: 1.25rem;
+  box-shadow: var(--cb-shadow-elevated);
+}
+
+/* Interactive hover lift strictly scoped to pointer devices with hover capability */
+@media (hover: hover) and (pointer: fine) {
+  .cb-card-interactive {
+    transition:
+      transform 220ms var(--cb-ease-out),
+      box-shadow 220ms var(--cb-ease-out),
+      border-color 180ms ease;
+  }
+
+  .cb-card-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -8px rgba(17, 56, 42, 0.14);
+  }
+
+  .cb-btn-lift:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+}
+
+/* Keyframes: subtle, calm, GPU-composited transform & opacity only */
+@keyframes cbFadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cbStepEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cbModalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes cbSoftFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.cb-hero-enter {
+  animation: cbFadeSlideUp 480ms var(--cb-ease-out) both;
+}
+
+.cb-hero-delay-1 {
+  animation-delay: 70ms;
+}
+
+.cb-hero-delay-2 {
+  animation-delay: 140ms;
+}
+
+.cb-hero-delay-3 {
+  animation-delay: 210ms;
+}
+
+.cb-step-enter {
+  animation: cbStepEnter 240ms var(--cb-ease-out) both;
+}
+
+.cb-modal-enter {
+  animation: cbModalEnter 200ms var(--cb-ease-out) both;
+}
+
+.cb-soft-float {
+  animation: cbSoftFloat 6s ease-in-out infinite;
+}
+
+/* Scroll reveal states (driven by IntersectionObserver in RevealOnScroll) */
+.cb-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 460ms var(--cb-ease-out),
+    transform 460ms var(--cb-ease-out);
+  will-change: opacity, transform;
+}
+
+.cb-reveal-left {
+  opacity: 0;
+  transform: translateX(-14px);
+  transition:
+    opacity 460ms var(--cb-ease-out),
+    transform 460ms var(--cb-ease-out);
+}
+
+.cb-reveal-right {
+  opacity: 0;
+  transform: translateX(14px);
+  transition:
+    opacity 460ms var(--cb-ease-out),
+    transform 460ms var(--cb-ease-out);
+}
+
+.cb-reveal.is-visible,
+.cb-reveal-left.is-visible,
+.cb-reveal-right.is-visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* Kiosk touchscreen mode adjustments: larger targets, clearer scale, minimal distraction */
+.cb-kiosk-mode {
+  font-size: 17px;
+}
+
+.cb-kiosk-mode button,
+.cb-kiosk-mode a[role='button'],
+.cb-kiosk-mode .cb-kiosk-target {
+  min-height: 54px;
+}
+
+.cb-kiosk-mode .cb-soft-float {
+  animation: none;
+}
+
+/* Strictly honor user reduced-motion preference across all animations & scroll reveals */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .cb-reveal,
+  .cb-reveal-left,
+  .cb-reveal-right {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
