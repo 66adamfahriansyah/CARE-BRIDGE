@@ -1,5 +1,6 @@
 import { DatabaseSync } from 'node:sqlite';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -10,11 +11,18 @@ let dbInstance: DatabaseSync | null = null;
 let currentDbPath: string | null = null;
 
 function resolveSchemaPath(): string {
-  const localPath = path.resolve(__dirname, 'schema.sql');
-  if (fs.existsSync(localPath)) {
-    return localPath;
+  const candidates = [
+    path.resolve(__dirname, 'schema.sql'),
+    path.resolve(process.cwd(), 'server', 'db', 'schema.sql'),
+    path.resolve(__dirname, '..', 'server', 'db', 'schema.sql'),
+    path.resolve(__dirname, '..', '..', 'server', 'db', 'schema.sql'),
+  ];
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
   }
-  return path.resolve(process.cwd(), 'server', 'db', 'schema.sql');
+  return candidates[1];
 }
 
 export function getDb(overridePath?: string): DatabaseSync {
@@ -22,10 +30,14 @@ export function getDb(overridePath?: string): DatabaseSync {
     return dbInstance;
   }
 
+  const defaultDbPath = process.env.VERCEL
+    ? path.join(os.tmpdir(), 'carebridge.db')
+    : path.resolve(process.cwd(), 'data', 'carebridge.db');
+
   const targetPath =
     overridePath ??
     process.env.CARE_BRIDGE_DB_PATH ??
-    path.resolve(process.cwd(), 'data', 'carebridge.db');
+    defaultDbPath;
 
   if (dbInstance && currentDbPath === targetPath) {
     return dbInstance;

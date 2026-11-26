@@ -64,7 +64,7 @@ const isMainModule =
   process.argv[1] &&
   path.resolve(process.argv[1]) === path.resolve(__filename);
 
-if (isMainModule) {
+if (!process.env.VERCEL && isMainModule) {
   const port = Number(process.env.PORT || 4000);
   const app = createApp();
   app.listen(port, () => {

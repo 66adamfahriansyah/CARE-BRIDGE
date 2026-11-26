@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
   "description": "CARE BRIDGE — Prototipe Platform Konseling Krisis Berbasis Komunitas dan Dukungan Psikososial Pascabencana Aceh",
   "scripts": {
     "dev": "concurrently -k -n API,WEB -c green,cyan \"npm run dev:server\" \"npm run dev:client\"",
