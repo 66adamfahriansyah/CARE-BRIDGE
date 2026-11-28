@@ -13,8 +13,14 @@
     "noUnusedParameters": true,
     "baseUrl": ".",
     "paths": {
-      "@shared/*": ["shared/*"]
+      "@shared/*": [
+        "shared/*"
+      ]
     }
   },
-  "include": ["api/**/*.ts", "server/**/*.ts", "shared/**/*.ts"]
+  "include": [
+    "api/**/*.ts",
+    "server/**/*.ts",
+    "shared/**/*.ts"
+  ]
 }
